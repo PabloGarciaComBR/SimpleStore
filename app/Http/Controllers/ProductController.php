@@ -3,19 +3,27 @@
 namespace SimpleStore\Http\Controllers;
 
 use Illuminate\Http\Request;
-use SimpleStore\Product;
+use SimpleStore\Repositories\ProductRepository;
+
 
 class ProductController extends Controller
 {
+    protected $productRepository;
+
+    public function __construct()
+    {
+        $this->productRepository = new ProductRepository();
+    }
+
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $products = $this->productRepository->getAll();
         return view('products.index', ['products' => $products]);
     }
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = $this->productRepository->findByID($id);
         return view('products.show', ['product' => $product]);
     }
 }

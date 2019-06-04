@@ -20,18 +20,14 @@
 
                             <div class="col-md-5 offset-md-1">
                                 <form method="POST" action="/cart/add">
-                                    <p class="ss-product-price">${{ $product->price }}</p>
-                                    <div class="input-group mb-3">
-                                        <select class="custom-select" id="ss-product-multiply">
-                                            <option selected>Choose...</option>
-                                            @for ($i = 1; $i <= 10; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                            @endfor
-                                        </select>
-                                        <div class="input-group-append">
-                                            <label class="input-group-text" for="ss-product-multiply">x {{ $product->quantity }}</label>
-                                        </div>
+
+                                    <!-- product price component -->
+                                    <div id="product-price-component"
+                                         data-price="{{ $product->price }}"
+                                         data-how-many="10"
+                                         data-product-quantity="{{ $product->quantity }}">
                                     </div>
+
                                     <button type="submit" class="btn btn-primary btn-block">Buy now</button>
                                 </form>
                             </div>

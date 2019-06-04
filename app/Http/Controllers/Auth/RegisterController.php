@@ -2,7 +2,7 @@
 
 namespace SimpleStore\Http\Controllers\Auth;
 
-use SimpleStore\User;
+use SimpleStore\Models\User;
 use SimpleStore\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
