@@ -61528,6 +61528,8 @@ module.exports = function(module) {
  * building robust, powerful web applications using React + Laravel.
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+__webpack_require__(/*! ./util */ "./resources/js/util.js");
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -61611,6 +61613,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util */ "./resources/js/util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -61630,6 +61633,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -61656,20 +61660,14 @@ function (_Component) {
       price: _this.props.price,
       howMany: _this.props.howMany,
       productQuantity: _this.props.productQuantity,
-      totalPrice: new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-      }).format(_this.props.price)
+      totalPrice: _util__WEBPACK_IMPORTED_MODULE_2__["default"].formatCurrency(_this.props.price)
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleChange", function (e) {
       var total = e.target.value * _this.state.price;
 
       _this.setState({
-        totalPrice: new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD'
-        }).format(total)
+        totalPrice: _util__WEBPACK_IMPORTED_MODULE_2__["default"].formatCurrency(total)
       });
     });
 
@@ -61698,8 +61696,9 @@ function (_Component) {
         className: "input-group mb-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "custom-select",
+        name: "howMany",
         id: "ss-product-multiply",
-        defaultValue: "",
+        defaultValue: "1",
         onChange: this.handleChange
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: "0",
@@ -61727,6 +61726,36 @@ if (ProductPriceComponent) {
     productQuantity: data.productQuantity
   }), document.getElementById('product-price-component'));
 }
+
+/***/ }),
+
+/***/ "./resources/js/util.js":
+/*!******************************!*\
+  !*** ./resources/js/util.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var util = {
+  // If necessary, is possible to inject this config after
+  locale: 'en-US',
+  currency: 'USD',
+
+  /**
+   * This method can receipt an amount in float type and return a string in human readable format
+   * @param float amount The amount to be formatted
+   * @return string The amount in human readable format
+   */
+  formatCurrency: function formatCurrency(amount) {
+    return new Intl.NumberFormat(util.locale, {
+      style: 'currency',
+      currency: util.currency
+    }).format(amount);
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (util);
 
 /***/ }),
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace SimpleStore\Http\Controllers;
+namespace SimpleStore\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
 

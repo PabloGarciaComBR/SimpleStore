@@ -20,7 +20,8 @@
 
                             <div class="col-md-5 offset-md-1">
                                 <form method="POST" action="/cart/add">
-
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $product->id }}">
                                     <!-- product price component -->
                                     <div id="product-price-component"
                                          data-price="{{ $product->price }}"

@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +16,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// Page
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Products
-Route::get('products', 'ProductController@index');
-Route::get('product/show/{id}', 'ProductController@show');
+// Product
+Route::get('/products', 'Product\ProductController@index');
+Route::get('/product/show/{id}', 'Product\ProductController@show');
+
+// Cart
+Route::get('/cart', 'Cart\IndexController@index');
+Route::post('/cart/add', 'Cart\ChangeController@add');

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import util from '../util'
 
 export default class ProductPrice extends Component {
 
@@ -7,12 +8,12 @@ export default class ProductPrice extends Component {
     price: this.props.price,
     howMany: this.props.howMany,
     productQuantity: this.props.productQuantity,
-    totalPrice: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.props.price)
+    totalPrice: util.formatCurrency(this.props.price)
   }
 
   handleChange = e => {
     let total = e.target.value * this.state.price
-    this.setState({totalPrice: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(total)})
+    this.setState({totalPrice: util.formatCurrency(total)})
   }
 
   handleOptions = howMany => {
@@ -30,7 +31,7 @@ export default class ProductPrice extends Component {
       <div>
         <p className="ss-product-price">{this.state.totalPrice}</p>
         <div className="input-group mb-3">
-          <select className="custom-select" id="ss-product-multiply" defaultValue="" onChange={this.handleChange}>
+          <select className="custom-select" name="howMany" id="ss-product-multiply" defaultValue="1" onChange={this.handleChange}>
             <option key="0" value="">Choose...</option>
             {this.handleOptions(this.state.howMany)}
           </select>
