@@ -16,9 +16,9 @@ class ChangeController extends Controller
     }
 
     /**
-     * ------------------------- #$#$#$# The product list action
+     * The action that add a product to the cart
      *
-     * @return Illuminate\View\View | Illuminate\Contracts\View\Factory
+     * @return Illuminate\Routing\Redirector
      */
     public function add(Request $request)
     {
@@ -26,16 +26,7 @@ class ChangeController extends Controller
 
         $this->cartRepository->addToCart(session(), $requestData);
 
-        //$products = $this->productRepository->getAll();
-        //return view('products.index', ['products' => $products]);
-
+        return redirect()->route('cart-index');
     }
 
-    /*
-    public function show($id)
-    {
-        $product = $this->productRepository->findByID($id);
-        return view('products.show', ['product' => $product]);
-    }
-    */
 }

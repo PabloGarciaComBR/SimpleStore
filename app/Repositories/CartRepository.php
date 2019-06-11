@@ -3,6 +3,7 @@
 namespace SimpleStore\Repositories;
 
 use Illuminate\Session\SessionManager;
+use SimpleStore\Services\UtilService;
 
 class CartRepository extends BaseRepository
 {
@@ -20,10 +21,10 @@ class CartRepository extends BaseRepository
 
             $currentSessionContent = $session->get('cart', function(){ return []; });
 
-            $cartContent = array_push($currentSessionContent, [
+            $cartContent = [
                 'id' => $data['id'],
                 'howMany' => $data['howMany']
-            ]);
+            ];
 
             $session->push('cart', $cartContent);
 
@@ -37,5 +38,57 @@ class CartRepository extends BaseRepository
             return false;
 
         }
+    }
+
+    /**
+     * Get all items in the cart and yours data
+     * (id, howMany, name, description, price, quantity and total)
+     *
+     * @return mixed $cart
+     */
+    public function getCart()
+    {
+        $product = new ProductRepository();
+
+        $cart = session('cart');
+
+        foreach ($cart as &$item) {
+
+            $info = $product->findByID($item['id']);
+
+            // Pushing product info into cart item array
+            $item += [
+                'name' => $info['name'],
+                'description' => $info['description'],
+                'price' => $info['price'],
+                'quantity' => $info['quantity'],
+                'total' => UtilService::formatCurrency($info['price'] * $item['howMany'])
+            ];
+
+        }
+
+        return $cart;
+    }
+
+    /**
+     * Get the all items cart total price
+     *
+     * @return mixed $counter
+     */
+    public function getCartCounter()
+    {
+        $product = new ProductRepository();
+        $cart = session('cart');
+        $counter = ['total' => 0];
+
+        foreach ($cart as &$item) {
+            $info = $product->findByID($item['id']);
+            $counter['total'] += $info['price'] * $item['howMany'];
+        }
+
+        // Set the cart total to human format
+        $counter['total'] = UtilService::formatCurrency($counter['total']);
+
+        return $counter;
     }
 }
