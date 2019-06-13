@@ -3,6 +3,7 @@
 namespace SimpleStore\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
+use SimpleStore\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
