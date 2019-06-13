@@ -24,6 +24,7 @@ before_script:
   - npm install npm@latest -g
   - npm install -g eslint eslint-plugin-react
   - npm install
+  - php artisan db:seed
 
 script:
   - vendor/bin/phpunit --coverage-text
