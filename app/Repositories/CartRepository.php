@@ -18,8 +18,9 @@ class CartRepository extends BaseRepository
     public function addToCart(SessionManager $session, Array $data)
     {
         try {
-
-            $currentSessionContent = $session->get('cart', function(){ return []; });
+            $currentSessionContent = $session->get('cart', function () {
+                return [];
+            });
 
             $cartContent = [
                 'id' => $data['id'],
@@ -29,14 +30,11 @@ class CartRepository extends BaseRepository
             $session->push('cart', $cartContent);
 
             return true;
-
-        } catch(Exception $e) {
-
+        } catch (Exception $e) {
             $message = "An exception was found in addToCart method. See details: " . $e->getMessage();
             Log::alert($message);
 
             return false;
-
         }
     }
 
@@ -52,19 +50,21 @@ class CartRepository extends BaseRepository
 
         $cart = session('cart');
 
-        foreach ($cart as &$item) {
+        if (!empty($cart)) {
+            foreach ($cart as &$item) {
+                $info = $product->findByID($item['id']);
 
-            $info = $product->findByID($item['id']);
-
-            // Pushing product info into cart item array
-            $item += [
-                'name' => $info['name'],
-                'description' => $info['description'],
-                'price' => $info['price'],
-                'quantity' => $info['quantity'],
-                'total' => UtilService::formatCurrency($info['price'] * $item['howMany'])
-            ];
-
+                // Pushing product info into cart item array
+                $item += [
+                    'name' => $info['name'],
+                    'description' => $info['description'],
+                    'price' => $info['price'],
+                    'quantity' => $info['quantity'],
+                    'total' => UtilService::formatCurrency($info['price'] * $item['howMany'])
+                ];
+            }
+        } else {
+            $cart = [];
         }
 
         return $cart;
@@ -81,9 +81,11 @@ class CartRepository extends BaseRepository
         $cart = session('cart');
         $counter = ['total' => 0];
 
-        foreach ($cart as &$item) {
-            $info = $product->findByID($item['id']);
-            $counter['total'] += $info['price'] * $item['howMany'];
+        if (!empty($cart)) {
+            foreach ($cart as &$item) {
+                $info = $product->findByID($item['id']);
+                $counter['total'] += $info['price'] * $item['howMany'];
+            }
         }
 
         // Set the cart total to human format

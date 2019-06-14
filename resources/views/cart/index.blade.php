@@ -9,7 +9,7 @@
         <span class="badge badge-secondary badge-pill">{{ count($cart) }}</span>
       </h4>
       <ul class="list-group mb-3">
-        @foreach ($cart as $item)
+        @forelse ($cart as $item)
         <li class="list-group-item d-flex justify-content-between lh-condensed">
           <div>
             <h6 class="my-0">{{ $item['name'] }}</h6>
@@ -20,7 +20,9 @@
             <small class="text-muted">{{ $item['howMany'] }} x ${{ $item['price'] }}</small>
           </div>
         </li>
-        @endforeach
+        @empty
+        <p>You don't have any products in your cart :(</p>
+        @endforelse
         <!--
         <li class="list-group-item d-flex justify-content-between bg-light">
           <div class="text-success">
@@ -38,6 +40,7 @@
     </div>
   </div>
 
+  @if (count($cart))
   <div class="row">
     <!--
     <div class="col-md-4">
@@ -60,5 +63,7 @@
       </form>
     </div>
   </div>
+  @endif
+
 </div>
 @endsection

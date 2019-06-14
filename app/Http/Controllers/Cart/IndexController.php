@@ -9,6 +9,11 @@ class IndexController extends Controller
 {
     protected $cartRepository;
 
+    /**
+     * The constructor method
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->cartRepository = new CartRepository();

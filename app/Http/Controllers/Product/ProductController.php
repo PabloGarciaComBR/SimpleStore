@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use SimpleStore\Http\Controllers\Controller;
 use SimpleStore\Repositories\ProductRepository;
 
-
 class ProductController extends Controller
 {
     protected $productRepository;
 
+    /**
+     * The constructor method
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->productRepository = new ProductRepository();

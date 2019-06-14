@@ -69,9 +69,9 @@ abstract class BaseRepository
      *
      * @return \Illuminate\Support\Collection
      */
-    public function lists($column, $key = null)
+    public function pluck($column, $key = null)
     {
-        return $this->newQuery()->lists($column, $key);
+        return $this->newQuery()->pluck($column, $key);
     }
 
     /**

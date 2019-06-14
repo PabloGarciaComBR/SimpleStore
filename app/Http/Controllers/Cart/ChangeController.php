@@ -10,6 +10,11 @@ class ChangeController extends Controller
 {
     protected $cartRepository;
 
+    /**
+     * The constructor method
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->cartRepository = new CartRepository();
@@ -28,5 +33,4 @@ class ChangeController extends Controller
 
         return redirect()->route('cart-index');
     }
-
 }
