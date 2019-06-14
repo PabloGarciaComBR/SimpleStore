@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 import util from '../util'
 
 export default class ProductPrice extends Component {
+
+  static propTypes = {
+    price: PropTypes.number,
+    howMany: PropTypes.number,
+    productQuantity: PropTypes.number
+  }
 
   state = {
     price: this.props.price,
@@ -51,6 +58,6 @@ var ProductPriceComponent = document.getElementById('product-price-component')
 if (ProductPriceComponent) {
   var data = ProductPriceComponent.dataset
   ReactDOM.render(
-    <ProductPrice price={data.price} howMany={data.howMany} productQuantity={data.productQuantity} />,
+    <ProductPrice price={Number(data.price)} howMany={Number(data.howMany)} productQuantity={Number(data.productQuantity)} />,
     document.getElementById('product-price-component'))
 }
