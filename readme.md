@@ -1,10 +1,6 @@
-<p align="center">
-    <span style="font-size: 2rem; font-weight: 300;">Pablo Garcia's </span>
-    <br>
-    <span style="font-size: 4rem; font-weight: 700;">Simple Store</span>
-</p>
+# Simple Store
 
-## Build Status
+### Build Status
 Master: [![Build Status](https://travis-ci.com/PabloGarciaComBR/SimpleStore.svg?branch=master)](https://travis-ci.com/PabloGarciaComBR/SimpleStore)
 
 Development: [![Build Status](https://travis-ci.com/PabloGarciaComBR/SimpleStore.svg?branch=development)](https://travis-ci.com/PabloGarciaComBR/SimpleStore)
@@ -13,8 +9,8 @@ Development: [![Build Status](https://travis-ci.com/PabloGarciaComBR/SimpleStore
 
 Simple Store is a really simple virtual store system, built with focus in code quality. The central ideia is to use the best practices in this project, like:
  - TDD;
- - Unity tests;
- - Feature tests;
+ - Unit tests;
+ - Design Patterns;
  - SOLID;
  - Development tools like xDebug, PHP CodeSniffer and ESLint;
  - CI.
