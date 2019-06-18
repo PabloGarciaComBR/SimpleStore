@@ -4,8 +4,8 @@
 <div class="container ss-products-index">
   <div class="row">
     <div class="col-md-12">
-      <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-muted">Your cart</span>
+      <h4 class="d-flex justify-content-between align-items-center mb-5">
+        <span class="text-muted">My cart</span>
         <span class="badge badge-secondary badge-pill">{{ count($cart) }}</span>
       </h4>
       <ul class="list-group mb-3">
@@ -56,7 +56,7 @@
     -->
 
     <div class="col-md-4 offset-md-8">
-      <form class="card p-2">
+      <form class="card p-2" action="/cart/shipping">
         <div class="input-group">
           <button class="btn btn-primary btn-md btn-block" type="submit">Continue to shipping method</button>
         </div>

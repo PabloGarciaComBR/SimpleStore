@@ -23,7 +23,7 @@
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product->id }}">
                                     <!-- product price component -->
-                                    <div id="product-price-component"
+                                    <div id="ss-product-price-component"
                                          data-price="{{ $product->price }}"
                                          data-how-many="10"
                                          data-product-quantity="{{ $product->quantity }}">

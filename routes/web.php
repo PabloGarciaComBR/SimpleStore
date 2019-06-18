@@ -26,3 +26,5 @@ Route::get('/product/show/{id}', 'Product\ProductController@show');
 // Cart
 Route::get('/cart', 'Cart\IndexController@index')->name('cart-index');
 Route::post('/cart/add', 'Cart\ChangeController@add');
+
+Route::get('/cart/shipping', 'Cart\ShippingController@index');
