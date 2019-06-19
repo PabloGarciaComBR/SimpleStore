@@ -13,8 +13,8 @@
                             <div class="col-md-6">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">{{ $product->description }}</li>
-                                    <li class="list-group-item">Quantity: {{ $product->quantity }}</li>
-                                    <li class="list-group-item">ID: #{{ $product->id }}</li>
+                                    <li class="list-group-item">{{ __('Quantity') }}: {{ $product->quantity }}</li>
+                                    <li class="list-group-item">{{ __('ID') }}: #{{ $product->id }}</li>
                                 </ul>
                             </div>
 
@@ -29,7 +29,7 @@
                                          data-product-quantity="{{ $product->quantity }}">
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary btn-block">Buy now</button>
+                                    <button type="submit" class="btn btn-primary btn-block">{{ __('Buy now') }}</button>
                                 </form>
                             </div>
 

@@ -23,8 +23,12 @@ Route::get('/home', 'Page\HomeController@index')->name('home');
 Route::get('/products', 'Product\ProductController@index');
 Route::get('/product/show/{id}', 'Product\ProductController@show');
 
-// Cart
+// Cart - index
 Route::get('/cart', 'Cart\IndexController@index')->name('cart-index');
 Route::post('/cart/add', 'Cart\ChangeController@add');
 
+// Cart - shipping
 Route::get('/cart/shipping', 'Cart\ShippingController@index');
+
+// Region
+Route::get('/region/find/country', 'Region\RegionController@findCountry');

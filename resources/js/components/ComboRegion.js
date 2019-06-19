@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
+import DropdownCountry from './DropdownCountry'
 
 const optionsCountry = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -15,6 +16,8 @@ export default class ComboRegion extends Component {
 
   selectCountry = (val) => {
     this.setState({ country: val })
+
+    // console.log(val.value,val.label)
   }
 
   selectRegion = (val) => {
@@ -22,14 +25,11 @@ export default class ComboRegion extends Component {
   }
 
   render() {
-    const { country, region } = this.state
+    //const { country, region } = this.state
 
     return (
       <div>
-        <Select
-          value={ country }
-          onChange={ (val) => this.selectCountry(val) }
-          options={ optionsCountry } />
+        <DropdownCountry onChange={ (val) => this.selectCountry(val) } />
         <Select
           onChange={ (val) => this.selectRegion(val) }
           options={ optionsCountry } />

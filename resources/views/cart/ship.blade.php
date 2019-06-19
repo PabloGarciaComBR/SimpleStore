@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-12 order-md-1">
       <h4 class="d-flex justify-content-between align-items-center mb-5">
-        <span class="text-muted">My address</span>
+        <span class="text-muted">{{ __('My address') }}</span>
       </h4>
       <form class="needs-validation" novalidate="">
         <h5 class="mb-3">Billing address</h5>
@@ -86,7 +86,7 @@
           <label class="custom-control-label" for="save-info">Save this information for next time</label>
         </div>
 
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button><hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">{{ __('Continue to checkout') }}</button><hr class="mb-4">
 
       </form>
     </div>
