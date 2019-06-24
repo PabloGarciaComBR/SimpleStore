@@ -35,6 +35,6 @@ class UtilService
             $result[] = ['value' => $key, 'label' => $value];
         }
 
-        return $result;
+        return isset($result) ? $result : [];
     }
 }

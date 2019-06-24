@@ -10,6 +10,8 @@ class CountryRepository extends BaseRepository
 
     /**
      * Get countries list in id => name format
+     *
+     * @return array
      */
     public function getCountriesPairs()
     {

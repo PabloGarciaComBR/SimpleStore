@@ -32,3 +32,5 @@ Route::get('/cart/shipping', 'Cart\ShippingController@index');
 
 // Region
 Route::get('/region/find/country', 'Region\RegionController@findCountry');
+Route::get('/region/find/state/{country}', 'Region\RegionController@findState');
+Route::get('/region/find/city/{state}', 'Region\RegionController@findCity');
