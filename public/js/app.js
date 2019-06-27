@@ -71369,6 +71369,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "country"
       }, "Country"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        name: "country",
         options: this.state.optionsCountry,
         onChange: function onChange(val) {
           return _this2.selectCountry(val);
@@ -71381,6 +71382,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "country"
       }, "State"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        name: "state",
         options: this.state.optionsState,
         onChange: function onChange(val) {
           return _this2.selectState(val);
@@ -71393,6 +71395,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "country"
       }, "City"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        name: "city",
         options: this.state.optionsCity,
         onChange: function onChange(val) {
           return _this2.selectCity(val);

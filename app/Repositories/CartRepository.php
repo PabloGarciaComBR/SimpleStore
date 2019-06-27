@@ -4,38 +4,40 @@ namespace SimpleStore\Repositories;
 
 use Illuminate\Session\SessionManager;
 use SimpleStore\Services\UtilService;
+use SimpleStore\Services\OrderService;
 
 class CartRepository extends BaseRepository
 {
+    protected $steps;
+    protected $orderService;
+
+    public function __construct()
+    {
+        $this->orderService = new OrderService();
+
+        $this->steps = [
+            'cart' => 'cart',
+            'ship' => 'cart-ship',
+            'pay'  => 'cart-pay'
+        ];
+    }
+
     /**
      * Add a product to cart.
      *
-     * @param Store $session Inject the current request session
+     * @param SessionManager $session Inject the current request session
      * @param Array $data The data array, with product id and how many
      *
      * @return Boolean
      */
     public function addToCart(SessionManager $session, Array $data)
     {
-        try {
-            $currentSessionContent = $session->get('cart', function () {
-                return [];
-            });
+        $cartContent = [
+            'id' => $data['id'],
+            'howMany' => $data['howMany']
+        ];
 
-            $cartContent = [
-                'id' => $data['id'],
-                'howMany' => $data['howMany']
-            ];
-
-            $session->push('cart', $cartContent);
-
-            return true;
-        } catch (Exception $e) {
-            $message = "An exception was found in addToCart method. See details: " . $e->getMessage();
-            Log::alert($message);
-
-            return false;
-        }
+        return $session->push($this->steps['cart'], $cartContent);
     }
 
     /**
@@ -48,7 +50,7 @@ class CartRepository extends BaseRepository
     {
         $product = new ProductRepository();
 
-        $cart = session('cart');
+        $cart = session($this->steps['cart']);
 
         if (!empty($cart)) {
             foreach ($cart as &$item) {
@@ -63,11 +65,11 @@ class CartRepository extends BaseRepository
                     'total' => UtilService::formatCurrency($info['price'] * $item['howMany'])
                 ];
             }
-        } else {
-            $cart = [];
+
+            return $cart;
         }
 
-        return $cart;
+        return [];
     }
 
     /**
@@ -78,7 +80,7 @@ class CartRepository extends BaseRepository
     public function getCartCounter()
     {
         $product = new ProductRepository();
-        $cart = session('cart');
+        $cart = session($this->steps['cart']);
         $counter = ['total' => 0];
 
         if (!empty($cart)) {
@@ -92,5 +94,46 @@ class CartRepository extends BaseRepository
         $counter['total'] = UtilService::formatCurrency($counter['total']);
 
         return $counter;
+    }
+
+    /**
+     * Return the stored data of an specific cart step
+     *
+     * @param SessionManager $session Inject the current request session
+     * @param string $step The step name, like in $this->steps
+     *
+     * @return array
+     */
+    public function getCartStepInfo(SessionManager $session, string $step)
+    {
+        return $session->get($this->steps[$step], []);
+    }
+
+    /**
+     * Save the step data in the session
+     *
+     * @param SessionManager $session Inject the current request session
+     * @param string $step The step name, like in $this->steps
+     * @param array $data The data that will be stored
+     *
+     * @return void
+     */
+    public function saveCartStepInfo(SessionManager $session, string $step, array $data)
+    {
+        return $session->put($this->steps[$step], $data);
+    }
+
+    /**
+     * Save the order in database
+     *
+     * @param SessionManager $session Inject the current request session
+     * @param array $paymentData Payment step data
+     */
+    public function saveOrder(SessionManager $session, array $paymentData)
+    {
+        $cartData = $session->get($this->steps['cart'], []);
+        $shippingData = $session->get($this->steps['ship'], []);
+
+        $this->orderService->putNewOrder($cartData, $shippingData, $paymentData);
     }
 }

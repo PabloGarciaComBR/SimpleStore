@@ -3,14 +3,16 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use SimpleStore\Repositories\CartRepository;
+use SimpleStore\Models\Order;
 
-class CartChangeTest extends TestCase
+class CartTest extends TestCase
 {
 
     protected $cartRepository;
     protected $dataProduct;
+    protected $dataShipping;
+    protected $paymentData;
 
     /**
      * Set Up the test enviroment
@@ -29,6 +31,25 @@ class CartChangeTest extends TestCase
             ['id' => 3, 'howMany' => 1],
             ['id' => 3, 'howMany' => 7]
         ];
+
+        $this->dataShipping = [
+            "firstName" => "Pablo",
+            "lastName" => "Garcia",
+            "address" => "Rua das Couves",
+            "address2" => "1234",
+            "country" => "2",
+            "state" => "1",
+            "city" => "1",
+            "zip" => "81580130"
+        ];
+
+        $this->paymentData = [
+            "paymentMethod" => "debit",
+            "cc-name" => "Paul A. Traz",
+            "cc-number" => "4356895632658945",
+            "cc-expiration" => "11/2023",
+            "cc-cvv" => "456"
+        ];
     }
 
     /**
@@ -39,10 +60,7 @@ class CartChangeTest extends TestCase
     public function testCanAddToCart()
     {
         $session = session();
-        $response = $this->cartRepository->addToCart($session, $this->dataProduct[1]);
-
-        // Check the response, it MUST be true
-        $this->assertTrue($response);
+        $this->cartRepository->addToCart($session, $this->dataProduct[1]);
 
         // Check if key "cart" exists
         $this->assertTrue($session->has('cart'));
@@ -88,11 +106,58 @@ class CartChangeTest extends TestCase
     {
         // I'll set the test data mass to the cart...
         $session = session();
-        $response = $this->cartRepository->addToCart($session, $this->dataProduct[1]);
-        $response = $this->cartRepository->addToCart($session, $this->dataProduct[3]);
+        $this->cartRepository->addToCart($session, $this->dataProduct[1]);
+        $this->cartRepository->addToCart($session, $this->dataProduct[3]);
         $counter = $this->cartRepository->getCartCounter();
 
         // ... and then, I'll make my asserts
         $this->assertEquals(320, $counter['total']);
+    }
+
+    /**
+     * Checks if method getCartStepInfo can get data correctly
+     *
+     * @return void
+     */
+    public function testGetStep()
+    {
+        $session = session();
+
+        $session->put('cart-ship', $this->dataShipping);
+        $sessionContent = $this->cartRepository->getCartStepInfo($session, 'ship');
+
+        $this->assertNotEmpty($sessionContent);
+        $this->assertArrayHasKey('firstName', $sessionContent);
+        $this->assertEquals($this->dataShipping["firstName"], $sessionContent['firstName']);
+    }
+
+    /**
+     * Checks that data is correctly saved in session using the saveCartStepInfo method
+     *
+     * @return void
+     */
+    public function testSaveStep()
+    {
+        $session = session();
+
+        $this->cartRepository->saveCartStepInfo($session, 'ship', $this->dataShipping);
+        $info = $this->cartRepository->getCartStepInfo($session, 'ship');
+
+        $this->assertNotEmpty($info);
+        $this->assertEquals($this->dataShipping["firstName"], $info['firstName']);
+    }
+
+    /**
+     *
+     */
+    public function testSaveOrder()
+    {
+        $session = session();
+
+        $this->cartRepository->saveOrder($session, $this->paymentData);
+
+        $userA = Order::find(1);
+
+        $this->assertNotEmpty($userA);
     }
 }

@@ -25,10 +25,18 @@ Route::get('/product/show/{id}', 'Product\ProductController@show');
 
 // Cart - index
 Route::get('/cart', 'Cart\IndexController@index')->name('cart-index');
+Route::post('/cart/save-shipping', 'Cart\IndexController@saveShipping');
+Route::post('/cart/save-order', 'Cart\IndexController@saveOrder');
+
+// Cart - change
 Route::post('/cart/add', 'Cart\ChangeController@add');
+Route::post('/cart/remove', 'Cart\ChangeController@remove');
 
 // Cart - shipping
-Route::get('/cart/shipping', 'Cart\ShippingController@index');
+Route::get('/cart/shipping', 'Cart\ShippingController@index')->name('cart-ship');
+
+// Cart - payment
+Route::get('/cart/payment', 'Cart\PaymentController@index')->name('cart-pay');
 
 // Region
 Route::get('/region/find/country', 'Region\RegionController@findCountry');
