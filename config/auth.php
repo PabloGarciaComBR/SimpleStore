@@ -68,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => SimpleStore\User::class,
+            'model' => SimpleStore\Models\User::class,
         ],
 
         // 'users' => [

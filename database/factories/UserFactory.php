@@ -1,7 +1,7 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use SimpleStore\User;
+use SimpleStore\Models\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
