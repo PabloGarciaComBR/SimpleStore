@@ -40,7 +40,7 @@ class CartTest extends TestCase
             "country" => "2",
             "state" => "1",
             "city" => "1",
-            "zip" => "81580130"
+            "postalcode" => "81580130"
         ];
 
         $this->paymentData = [
@@ -145,19 +145,5 @@ class CartTest extends TestCase
 
         $this->assertNotEmpty($info);
         $this->assertEquals($this->dataShipping["firstName"], $info['firstName']);
-    }
-
-    /**
-     *
-     */
-    public function testSaveOrder()
-    {
-        $session = session();
-
-        $this->cartRepository->saveOrder($session, $this->paymentData);
-
-        $userA = Order::find(1);
-
-        $this->assertNotEmpty($userA);
     }
 }

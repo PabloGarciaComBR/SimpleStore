@@ -18,6 +18,7 @@ class CreateUserAddressesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('country_id');
             $table->unsignedBigInteger('state_id');
+            $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('postalcode_id');
             $table->string('address', 80);
             $table->string('address_2', 80);
@@ -27,6 +28,7 @@ class CreateUserAddressesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('country_id')->references('id')->on('countries');
             $table->foreign('state_id')->references('id')->on('states');
+            $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('postalcode_id')->references('id')->on('postalcodes');
         });
     }

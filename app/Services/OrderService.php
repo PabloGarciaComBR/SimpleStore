@@ -3,13 +3,27 @@
 namespace SimpleStore\Services;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Auth;
+use Illuminate\Support\Facades\Auth;
 use SimpleStore\Models\Order;
 use SimpleStore\Models\OrderItem;
 use SimpleStore\Models\UserAddress;
+use SimpleStore\Services\PostalcodeService;
 
 class OrderService
 {
+
+    protected $postalcodeService;
+
+    /**
+     * The constructor method
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->postalcodeService = new PostalcodeService();
+    }
+
     /**
      * Process data and save a new order in database
      *
@@ -25,9 +39,8 @@ class OrderService
 
         try {
 
-            $userId        = $id = Auth::user()->id;
-            dd($userId);
-            $userAddressId = $this->saveUserAddress();
+            $userId        = Auth::user()->id;
+            $userAddressId = $this->saveUserAddress($shippingData, $userId);
             $orderId       = $this->saveOrder();
             $this->saveOrderItems($cartData);
 
@@ -57,9 +70,27 @@ class OrderService
         //
     }
 
-    private function saveUserAddress()
+    private function saveUserAddress(array $shippingData, int $userId)
     {
-        //
+
+        $postalcodeData = $this->postalcodeService->saveOrGet(
+            $shippingData['postalcode'],
+            $shippingData['city'],
+            $shippingData['address'],
+            ''
+        );
+
+        $userAddressData = UserAddress::create([
+            'user_id' => $userId,
+            'country_id' => $shippingData['country'],
+            'state_id' => $shippingData['state'],
+            'city_id' => $shippingData['city'],
+            'postalcode_id' => $postalcodeData['id'],
+            'address' => $shippingData['address'],
+            'address_2' => $shippingData['address2']
+        ]);
+
+        dd($userAddressData);
     }
 
     private function saveOrder()

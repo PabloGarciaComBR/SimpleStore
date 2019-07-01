@@ -46,8 +46,8 @@
           </div>
 
           <div class="col-md-2 mb-3">
-            <label for="zip">{{ __('Postal code') }}</label>
-            <input type="text" class="form-control" id="zip" name="zip" placeholder="" required="">
+            <label for="postalcode">{{ __('Postal code') }}</label>
+            <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="" required="">
             <div class="invalid-feedback">
               {{ __('Postal code required.') }}
             </div>

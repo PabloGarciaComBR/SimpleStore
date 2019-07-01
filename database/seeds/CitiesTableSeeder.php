@@ -14,8 +14,6 @@ class CitiesTableSeeder extends Seeder
     {
         DB::table('cities')->insert([
             'state_id' => 1,
-            'callcode' => '41',
-            'IATA_3' => 'CWB',
             'name' => 'Curitiba'
         ]);
     }
