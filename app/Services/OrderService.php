@@ -8,11 +8,13 @@ use SimpleStore\Models\Order;
 use SimpleStore\Models\OrderItem;
 use SimpleStore\Models\UserAddress;
 use SimpleStore\Services\PostalcodeService;
+use SimpleStore\Repositories\CartRepository;
 
 class OrderService
 {
 
     protected $postalcodeService;
+    protected $cartRepository;
 
     /**
      * The constructor method
@@ -22,6 +24,7 @@ class OrderService
     public function __construct()
     {
         $this->postalcodeService = new PostalcodeService();
+        $this->cartRepository = new CartRepository();
     }
 
     /**
@@ -39,10 +42,12 @@ class OrderService
 
         try {
 
-            $userId        = Auth::user()->id;
-            $userAddressId = $this->saveUserAddress($shippingData, $userId);
-            $orderId       = $this->saveOrder();
+            $userId          = Auth::user()->id;
+            $userAddressData = $this->saveUserAddress($shippingData, $userId);
+            $orderData       = $this->saveOrder($userId, $userAddressData['id'], $this->cartRepository->getCartCounter());
             $this->saveOrderItems($cartData);
+
+            dd($orderData);
 
             DB::commit();
         } catch (\Throwable $e) {
@@ -70,6 +75,14 @@ class OrderService
         //
     }
 
+    /**
+     * Save the user address in database
+     *
+     * @param array $shippingData
+     * @param int $userId
+     *
+     * @return array
+     */
     private function saveUserAddress(array $shippingData, int $userId)
     {
 
@@ -90,11 +103,30 @@ class OrderService
             'address_2' => $shippingData['address2']
         ]);
 
-        dd($userAddressData);
+        return is_object($userAddressData) ? $userAddressData->toArray() : [];
     }
 
-    private function saveOrder()
+    /**
+     * Save order data in database
+     *
+     * @param int $userId
+     * @param int $userAddressId
+     * @param array $cartCounter
+     *
+     * @return array
+     */
+    private function saveOrder(int $userId, int $userAddressId, array $cartCounter)
     {
-        //
+        $orderData = Order::create([
+            'user_id' => $userId,
+            'user_address_id' => $userAddressId,
+            'product_value' => $cartCounter['product'],
+            'tax_value' => $cartCounter['tax'],
+            'transport_value' => $cartCounter['transport'],
+            'other_value' => $cartCounter['other'],
+            'order_status_id' => 1
+        ]);
+
+        return is_object($orderData) ? $orderData->toArray() : [];
     }
 }

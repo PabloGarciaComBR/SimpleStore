@@ -108,10 +108,12 @@ class CartTest extends TestCase
         $session = session();
         $this->cartRepository->addToCart($session, $this->dataProduct[1]);
         $this->cartRepository->addToCart($session, $this->dataProduct[3]);
-        $counter = $this->cartRepository->getCartCounter();
+        $counter   = $this->cartRepository->getCartCounter();
 
         // ... and then, I'll make my asserts
-        $this->assertEquals(320, $counter['total']);
+        $this->assertEquals(320, $counter['product']);
+        $this->assertEquals(22.9, $counter['items'][1]['unitPrice']);
+        $this->assertEquals(251.3, $counter['items'][3]['product']);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace SimpleStore\Http\Controllers\Cart;
 use Illuminate\Http\Request;
 use SimpleStore\Http\Controllers\Controller;
 use SimpleStore\Repositories\CartRepository;
+use SimpleStore\Services\UtilService;
 
 class IndexController extends Controller
 {
@@ -29,7 +30,10 @@ class IndexController extends Controller
     {
         $cart = $this->cartRepository->getCart();
         $counter = $this->cartRepository->getCartCounter();
-        return view('cart.index', ['cart' => $cart, 'counter' => $counter]);
+        return view('cart.index', [
+            'cart' => $cart,
+            'total' => UtilService::formatCurrency($counter['product'])
+        ]);
     }
 
     /**

@@ -10,10 +10,12 @@ class CartRepository extends BaseRepository
 {
     protected $steps;
     protected $orderService;
+    protected $productRepository;
 
     public function __construct()
     {
         $this->orderService = new OrderService();
+        $this->productRepository = new ProductRepository();
 
         $this->steps = [
             'cart' => 'cart',
@@ -48,13 +50,11 @@ class CartRepository extends BaseRepository
      */
     public function getCart()
     {
-        $product = new ProductRepository();
-
         $cart = session($this->steps['cart']);
 
         if (!empty($cart)) {
             foreach ($cart as &$item) {
-                $info = $product->findByID($item['id']);
+                $info = $this->productRepository->findByID($item['id']);
 
                 // Pushing product info into cart item array
                 $item += [
@@ -73,25 +73,39 @@ class CartRepository extends BaseRepository
     }
 
     /**
-     * Get the all items cart total price
+     * Get the cart totals values
      *
      * @return mixed $counter
      */
     public function getCartCounter()
     {
-        $product = new ProductRepository();
         $cart = session($this->steps['cart']);
-        $counter = ['total' => 0];
+
+        $counter = [
+            'product'   => 0,
+            'tax'       => 0,
+            'transport' => 0,
+            'other'     => 0,
+            'total'     => 0,
+            'items'     => []
+        ];
 
         if (!empty($cart)) {
             foreach ($cart as &$item) {
-                $info = $product->findByID($item['id']);
-                $counter['total'] += $info['price'] * $item['howMany'];
+
+                $info = $this->productRepository->findByID($item['id']);
+
+                $counter['product'] += $info['price'] * $item['howMany'];
+
+                $counter['items'][$item['id']] = [
+                    'unitPrice' => (float) $info['price'],
+                    'howMany'   => $item['howMany'],
+                    'product'   => $info['price'] * $item['howMany'],
+                    'tax'       => 0,
+                    'other'     => 0
+                ];
             }
         }
-
-        // Set the cart total to human format
-        $counter['total'] = UtilService::formatCurrency($counter['total']);
 
         return $counter;
     }
