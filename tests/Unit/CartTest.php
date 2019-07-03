@@ -44,7 +44,7 @@ class CartTest extends TestCase
         ];
 
         $this->paymentData = [
-            "paymentMethod" => "debit",
+            "paymentMethod" => 1,
             "cc-name" => "Paul A. Traz",
             "cc-number" => "4356895632658945",
             "cc-expiration" => "11/2023",

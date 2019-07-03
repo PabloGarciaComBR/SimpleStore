@@ -7,30 +7,37 @@ class PaymentService
     /**
      * Receive the payment data and select the correct method to process it
      *
+     * @param float $amount
      * @param array $paymentData
      *
      * @return boolean
      */
-    public function processPayment(array $paymentData)
+    public function processPayment(float $amount, array $paymentData)
     {
         switch ($paymentData['paymentMethod']) {
-            case 'debit':
-                return $this->captureDebit($paymentData);
-                break;
-            case 'credit':
-                return $this->captureCredit($paymentData);
-                break;
+            case 1:
+                return $this->captureCredit($paymentData, $amount);
+            case 3:
+                return $this->capturePrepaid($paymentData, $amount);
+            case 2:
+            case 4:
+            case 5:
+            case 6:
+                return $this->capturePostpaid($paymentData, $amount);
+            default:
+                return false;
         }
     }
 
     /**
-     * Process the capture of a payment by debit card
+     * Process the capture of a payment by prepaid method
      *
      * @param array $paymentData
+     * @param float $amount
      *
      * @return boolean
      */
-    private function captureDebit(array $paymentData)
+    private function capturePrepaid(array $paymentData, float $amount)
     {
         return true;
     }
@@ -39,11 +46,25 @@ class PaymentService
      * Process the capture of a payment by credit card
      *
      * @param array $paymentData
+     * @param float $amount
      *
      * @return boolean
      */
-    private function captureCredit(array $paymentData)
+    private function captureCredit(array $paymentData, float $amount)
     {
         return true;
+    }
+
+    /**
+     * Process the capture of a payment by postpaid methods
+     *
+     * @param array $paymentData
+     * @param float $amount
+     *
+     * @return boolean
+     */
+    private function capturePostpaid(array $paymentData, float $amount)
+    {
+        return false;
     }
 }

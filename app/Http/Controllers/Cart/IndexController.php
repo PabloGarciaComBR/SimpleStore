@@ -66,8 +66,12 @@ class IndexController extends Controller
         $requestData = $request->all();
         array_pull($requestData, "_token");
 
-        $this->cartRepository->saveOrder($session, $requestData);
+        $orderId = $this->cartRepository->saveOrder($session, $requestData);
 
-        dd($requestData);
+        if ($orderId) {
+            return redirect()->route("order-details", ['id' => $orderId]);
+        }
+
+        return redirect()->route("cart-pay");
     }
 }

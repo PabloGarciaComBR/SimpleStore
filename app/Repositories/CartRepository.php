@@ -5,18 +5,14 @@ namespace SimpleStore\Repositories;
 use Illuminate\Session\SessionManager;
 use SimpleStore\Services\UtilService;
 use SimpleStore\Services\OrderService;
+use SimpleStore\Services\PaymentService;
 
 class CartRepository extends BaseRepository
 {
     protected $steps;
-    protected $orderService;
-    protected $productRepository;
 
     public function __construct()
     {
-        $this->orderService = new OrderService();
-        $this->productRepository = new ProductRepository();
-
         $this->steps = [
             'cart' => 'cart',
             'ship' => 'cart-ship',
@@ -50,11 +46,13 @@ class CartRepository extends BaseRepository
      */
     public function getCart()
     {
+        $productRepository = new ProductRepository();
+
         $cart = session($this->steps['cart']);
 
         if (!empty($cart)) {
             foreach ($cart as &$item) {
-                $info = $this->productRepository->findByID($item['id']);
+                $info = $productRepository->findByID($item['id']);
 
                 // Pushing product info into cart item array
                 $item += [
@@ -79,6 +77,8 @@ class CartRepository extends BaseRepository
      */
     public function getCartCounter()
     {
+        $productRepository = new ProductRepository();
+
         $cart = session($this->steps['cart']);
 
         $counter = [
@@ -92,8 +92,7 @@ class CartRepository extends BaseRepository
 
         if (!empty($cart)) {
             foreach ($cart as &$item) {
-
-                $info = $this->productRepository->findByID($item['id']);
+                $info = $productRepository->findByID($item['id']);
 
                 $counter['product'] += $info['price'] * $item['howMany'];
 
@@ -106,6 +105,8 @@ class CartRepository extends BaseRepository
                 ];
             }
         }
+
+        $counter['total'] = $counter['product'] + $counter['tax'] + $counter['transport'] + $counter['other'];
 
         return $counter;
     }
@@ -145,9 +146,16 @@ class CartRepository extends BaseRepository
      */
     public function saveOrder(SessionManager $session, array $paymentData)
     {
+        $orderService = new OrderService();
+        $paymentService = new PaymentService();
+
         $cartData = $session->get($this->steps['cart'], []);
+        $cartCounter = $this->getCartCounter();
         $shippingData = $session->get($this->steps['ship'], []);
 
-        $this->orderService->putNewOrder($cartData, $shippingData, $paymentData);
+        $orderId = $orderService->putNewOrder($cartData, $shippingData, $paymentData);
+        $paymentService->processPayment($cartCounter['total'], $paymentData);
+
+        return $orderId;
     }
 }

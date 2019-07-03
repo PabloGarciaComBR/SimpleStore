@@ -3,6 +3,7 @@
 namespace SimpleStore\Http\Controllers\Cart;
 
 use SimpleStore\Http\Controllers\Controller;
+use SimpleStore\Repositories\PaymentTypeRepository;
 
 class PaymentController extends Controller
 {
@@ -13,6 +14,9 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return view('cart.pay');
+        $paymentTypeRepository = new PaymentTypeRepository();
+
+        $types = $paymentTypeRepository->getPaymentTypes();
+        return view('cart.pay', ['paymentTypes' => $types]);
     }
 }

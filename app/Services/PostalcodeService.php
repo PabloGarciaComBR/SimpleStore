@@ -7,18 +7,6 @@ use SimpleStore\Models\Postalcode;
 
 class PostalcodeService
 {
-    protected $postalcodeRepository;
-
-    /**
-     * The constructor method
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->postalcodeRepository = new PostalcodeRepository();
-    }
-
     /**
      * If postal code already exists in database, get it
      * Else, insert to database and return it
@@ -32,7 +20,9 @@ class PostalcodeService
      */
     public function saveOrGet(string $code, int $city, string $place, string $neighborhood)
     {
-        $res = $this->postalcodeRepository->getByPostalcode($code);
+        $postalcodeRepository = new PostalcodeRepository();
+
+        $res = $postalcodeRepository->getByPostalcode($code);
 
         if (empty($res)) {
             $create = Postalcode::create([

@@ -11,14 +11,14 @@
       <form class="needs-validation" novalidate="" method="POST" action="/cart/save-order">
         {{ @csrf_field() }}
         <div class="d-block my-3">
+          @forelse ($paymentTypes as $typeId => $typeName)
           <div class="custom-control custom-radio">
-            <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" value="credit" checked required>
-            <label class="custom-control-label" for="credit">{{ __('Credit card') }}</label>
+            <input id="pay-type-{{ $typeId }}" name="paymentMethod" type="radio" class="custom-control-input" value="{{ $typeId }}" required>
+            <label class="custom-control-label" for="pay-type-{{ $typeId }}">{{ __($typeName) }}</label>
           </div>
-          <div class="custom-control custom-radio">
-            <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" value="debit" required>
-            <label class="custom-control-label" for="debit">{{ __('Debit card') }}</label>
-          </div>
+          @empty
+            {{ __('At this moment, we haven\'t any payment types available.') }}
+          @endforelse
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
