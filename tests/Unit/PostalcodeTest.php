@@ -34,7 +34,7 @@ class PostalcodeTest extends TestCase
         $res2 = $this->postalcodeRepository->getByPostalcode('01350400');
 
         $this->assertNotEmpty($res1);
-        $this->assertArrayHasKey('neighborhood', $res1[0]);
+        $this->assertArrayHasKey('neighborhood', $res1);
         $this->assertEmpty($res2);
     }
 }

@@ -22,6 +22,6 @@ class PostalcodeRepository extends BaseRepository
 
         $res = $this->doQuery($query, false, false);
 
-        return is_object($res) ? $res->toArray() : [];
+        return is_object($res) && count($res) > 0 ? $res->first()->toArray() : [];
     }
 }
