@@ -55,7 +55,7 @@ class RegionTest extends TestCase
 
         $this->assertNotEmpty($states2);
         $this->assertIsArray($states2);
-        $this->assertCount(2, $states2);
+        $this->assertCount(5, $states2);
 
         $this->assertEmpty($states3);
         $this->assertIsArray($states3);

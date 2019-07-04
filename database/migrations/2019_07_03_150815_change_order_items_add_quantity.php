@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatesTable extends Migration
+class ChangeOrderItemsAddQuantity extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateStatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('states', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('country_id');
-            $table->string('name', 50);
-
-            $table->foreign('country_id')->references('id')->on('countries');
+        Schema::table("order_items", function(Blueprint $table) {
+            $table->integer('quantity')->after('product_id');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateStatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('states');
+        Schema::table("order_items", function(Blueprint $table){
+            $table->dropColumn('quantity');
+        });
     }
 }

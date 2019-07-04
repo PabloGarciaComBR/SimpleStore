@@ -4,7 +4,7 @@ namespace SimpleStore\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class State extends Model
+class Order extends Model
 {
-    public $timestamps = true;
+    protected $guarded = ['updated_at'];
 }

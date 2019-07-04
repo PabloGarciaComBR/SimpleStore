@@ -2,7 +2,6 @@
 
 namespace SimpleStore\Http\Controllers\Region;
 
-use Illuminate\Http\Request;
 use SimpleStore\Http\Controllers\Controller;
 use SimpleStore\Repositories\CountryRepository;
 use SimpleStore\Repositories\StateRepository;

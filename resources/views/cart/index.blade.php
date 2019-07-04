@@ -34,7 +34,7 @@
         -->
         <li class="list-group-item d-flex justify-content-between bg-dark ss-cart-total">
           <span>{{ __('Total (USD)') }}</span>
-          <strong>${{ $counter['total'] }}</strong>
+          <strong>${{ $total }}</strong>
         </li>
       </ul>
     </div>

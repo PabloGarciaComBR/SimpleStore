@@ -41,6 +41,7 @@ export default class ComboRegion extends Component {
         <div className="col-md-4 mb-3">
           <label htmlFor="country">Country</label>
           <Select
+            name="country"
             options={this.state.optionsCountry}
             onChange={ (val) => this.selectCountry(val) }
             value={this.state.country} />
@@ -52,6 +53,7 @@ export default class ComboRegion extends Component {
         <div className="col-md-4 mb-3">
           <label htmlFor="country">State</label>
           <Select
+            name="state"
             options={this.state.optionsState}
             onChange={ (val) => this.selectState(val) }
             value={this.state.state} />
@@ -63,6 +65,7 @@ export default class ComboRegion extends Component {
         <div className="col-md-4 mb-3">
           <label htmlFor="country">City</label>
           <Select
+            name="city"
             options={this.state.optionsCity}
             onChange={ (val) => this.selectCity(val) }
             value={this.state.city} />
