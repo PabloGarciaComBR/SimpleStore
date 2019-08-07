@@ -3,7 +3,6 @@
 namespace SimpleStore\Repositories;
 
 use SimpleStore\Models\Product;
-use Hamcrest\Type\IsObject;
 
 class ProductRepository extends BaseRepository
 {

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -32,6 +32,12 @@
 
             .position-ref {
                 position: relative;
+            }
+
+            .top-left {
+                position: absolute;
+                left: 10px;
+                top: 18px;
             }
 
             .top-right {
@@ -66,32 +72,31 @@
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
+                <div class="top-left links">
+                    <a href="{{ url('/products') }}">{{ __('Products') }}</a>
+                </div>
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">{{ __('Home') }}</a>
+                        <a href="{{ url('/my-account') }}">{{ __('My account') }}</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">{{ __('Login') }}</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">{{ __('Register') }}</a>
                         @endif
                     @endauth
+                    <a href="{{ route('cart-index') }}">{{ __('My cart') }}</a>
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    {{ config('app.name', 'Laravel') }}
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://github.com/PabloGarciaComBR/SimpleStore">{{ __('GitHub') }}</a>
                 </div>
             </div>
         </div>

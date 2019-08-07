@@ -21,7 +21,9 @@ class ChangeController extends Controller
     }
 
     /**
-     * The action that add a product to the cart
+     * The action that adds a product to the cart
+     *
+     * @param Illuminate\Http\Request $request
      *
      * @return Illuminate\Routing\Redirector
      */
@@ -31,6 +33,19 @@ class ChangeController extends Controller
 
         $this->cartRepository->addToCart(session(), $requestData);
 
-        return redirect()->route('cart-index');
+        return redirect()->route("cart-index");
+    }
+
+    /**
+     * The action that removes a product of the cart
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Routing\Redirector
+     */
+    public function remove(Request $request)
+    {
+        $requestData = $request->all();
+        dd($requestData);
     }
 }

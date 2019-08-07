@@ -12,7 +12,7 @@
         <div class="card-body">
           <p>{{ $product->description }}</p>
           <span class="ss-product-price">${{ $product->price }}</span>
-          <a href="/product/show/{{ $product->id }}" class="btn btn-primary btn-md btn-block">See details</a>
+          <a href="/product/show/{{ $product->id }}" class="btn btn-primary btn-md btn-block">{{ __('See details') }}</a>
         </div>
       </div>
     </div>
